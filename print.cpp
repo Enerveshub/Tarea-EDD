@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
-
+#include <fstream>
+#include <cstring>
+using namespace std;
 
 struct Dato{
 
@@ -11,6 +13,32 @@ struct Dato{
     char Curso [7];      
     unsigned short VTR;   
 };
+
+char* Cargar_archivo(string narch, size_t size){
+
+    ifstream archivo(narch, ios::binary | ios::app);
+    if (archivo.is_open()){
+        /*Codigo*/
+
+        return 0;
+    }
+    else {
+        cout<< "No se pudo abrir el archivo";
+        size = 0;
+        return nullptr;
+    }
+    
+    
+}
+
+int main(){
+
+    string nombre_archivo;
+    size_t tamano = 0;
+    cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
+    cin >> nombre_archivo;
+    char* archivo = Cargar_archivo(nombre_archivo, tamano);
+}
 
 void Menú(){
 
