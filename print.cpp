@@ -14,7 +14,7 @@ struct Dato{
     unsigned short VTR;   
 };
 
-char* Cargar_archivo(string narch, size_t size){
+char* Leer_archivo(string narch, size_t size){
 
     ifstream archivo(narch, ios::binary | ios::in);
     if (archivo.is_open()){
@@ -43,7 +43,7 @@ int main(){
     size_t tamano = 0;
     cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
     cin >> nombre_archivo;
-    char* archivo = Cargar_archivo(nombre_archivo, tamano);
+    char* archivo = Leer_archivo(nombre_archivo, tamano);
 }
 
 void Menú(){
