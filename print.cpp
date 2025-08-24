@@ -16,11 +16,17 @@ struct Dato{
 
 char* Cargar_archivo(string narch, size_t size){
 
-    ifstream archivo(narch, ios::binary | ios::app);
+    ifstream archivo(narch, ios::binary | ios::in);
     if (archivo.is_open()){
-        /*Codigo*/
+        archivo.seekg(0, ios::end);
+        size = archivo.tellg();
+        archivo.seekg(0, ios::beg);
 
-        return 0;
+        char* puntero = new char[size];
+        archivo.read(puntero, size);
+        archivo.close();
+
+        return puntero;
     }
     else {
         cout<< "No se pudo abrir el archivo";
