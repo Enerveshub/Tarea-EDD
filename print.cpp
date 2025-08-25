@@ -14,26 +14,37 @@ struct Dato{
     unsigned short VTR;   
 };
 
-char* Cargar_archivo(string narch, size_t size){
+char* Cargar_archivo(string narch, size_t *size){
 
-    ifstream archivo(narch, ios::binary | ios::in);
+    /*Esta funcion recibe el string con el nombre del archivo y una direccion de memoria apuntando a un puntero fuera de la funcion, el cual determina el
+    tamaño del arreglo en el que se guardaran los datos del archivo que se abre*/
+
+    ifstream archivo(narch, ios::binary | ios::in); 
     if (archivo.is_open()){
+
         archivo.seekg(0, ios::end);
-        size = archivo.tellg();
+        *size = archivo.tellg();
         archivo.seekg(0, ios::beg);
 
-        char* puntero = new char[size];
-        archivo.read(puntero, size);
+        char* puntero = new char[*size];
+        archivo.read(puntero, *size);
         archivo.close();
 
         return puntero;
     }
     else {
+
+        /*En caso de fallar, la funcion regresa un puntero nulo y te avisa que no se pudo abrir el archivo*/
         cout<< "No se pudo abrir el archivo";
-        size = 0;
+        *size = 0;
         return nullptr;
     }
     
+}
+
+void Eliminar_duplicados(){
+
+
     
 }
 
@@ -43,7 +54,8 @@ int main(){
     size_t tamano = 0;
     cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
     cin >> nombre_archivo;
-    char* archivo = Cargar_archivo(nombre_archivo, tamano);
+    char* archivo = Cargar_archivo(nombre_archivo, &tamano);
+    delete[] archivo;
 }
 
 void Menú(){
