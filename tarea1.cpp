@@ -36,12 +36,13 @@ char* Leer_archivo(string narch, size_t size){
     
     
 }
-
+// funcion que elimina los datos duplicados 
 void Eliminar_Duplicados ( Dato *& datos , int & cantidad_datos ) {
     int n_tamaño = 0;
     for (int i=0; i < cantidad_datos; i++){
         bool duplicado=false;
         for (int g=0; g < n_tamaño; g++){
+            // compara con id y curso para eliminar duplicados
             if (datos[i].Id == datos[g].Id || datos[i].Curso == datos[g].Curso){
                 duplicado=true;
                 break;
@@ -51,16 +52,28 @@ void Eliminar_Duplicados ( Dato *& datos , int & cantidad_datos ) {
            datos[n_tamaño++] = datos[i];
        };
     };
+    
     cantidad_datos = n_tamaño;
 };
 
 int main(){
 
     string nombre_archivo;
-    size_t tamano = 0;
+    size_t tamaño = 0;
     cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
     cin >> nombre_archivo;
-    char* archivo = Leer_archivo(nombre_archivo, tamano);
+    char* archivo = Leer_archivo(nombre_archivo, tamaño);
+
+    if (archivo && tamaño > 0) {
+        int cantidad_datos = tamaño / sizeof(Dato);
+        Dato* datos = reinterpret_cast<Dato*>(archivo);
+
+        Eliminar_Duplicados(datos, cantidad_datos);
+        
+
+        delete[] archivo;
+    }
+
 }
 
 void Menú(){
