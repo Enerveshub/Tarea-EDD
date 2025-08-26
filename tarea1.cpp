@@ -13,7 +13,8 @@ struct Dato{
     char Curso [7];      
     unsigned short VTR;   
 };
-
+/*Esta funcion recibe el string con el nombre del archivo y una direccion de memoria apuntando a un puntero fuera de la funcion, el cual determina el
+    tamaño del arreglo en el que se guardaran los datos del archivo que se abre*/
 char* Leer_archivo(string narch, size_t size){
 
     ifstream archivo(narch, ios::binary | ios::in);
@@ -28,6 +29,7 @@ char* Leer_archivo(string narch, size_t size){
 
         return puntero;
     }
+     /*En caso de fallar, la funcion regresa un puntero nulo y te avisa que no se pudo abrir el archivo*/
     else {
         cout<< "No se pudo abrir el archivo";
         size = 0;
