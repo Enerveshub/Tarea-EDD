@@ -1,13 +1,13 @@
 # 2.1 
 # 1
 Un archivo readme proporciona información inicial que va a ser necesaria para comprenderlos contenidos de nuestro proyecto, el archivo readme es fundamental para nuevos usuarios
-porque incluyen informacion como:
-
-    *Qué hace el proyecto.
-    *Por qué el proyecto es útil.
-    *Cómo pueden comenzar los usuarios con el proyecto.
-    *Dónde pueden recibir ayuda los usuarios con tu proyecto
-    *Quién mantiene y contribuye con el proyecto.
+porque incluyen informacion 
+como:
+    - Qué hace el proyecto.
+    - Por qué el proyecto es útil.
+    - Cómo pueden comenzar los usuarios con el proyecto.
+    - Dónde pueden recibir ayuda los usuarios con tu proyecto
+    - Quién mantiene y contribuye con el proyecto.
 
 
 
@@ -18,3 +18,10 @@ La utilidad de makefile se basa principalmente en ayudarte a facilitar el proces
 
 https://docs.oracle.com/cd/E19957-01/806-3564/Make.html
 https://makefiletutorial.com/ 
+
+
+# 3
+Github permite estructurar de mejor manera los trabajos colaborativos que se realizarian en un entorno laboral, educativo, entre otros, permite crear una ramas, realizar modificaciones, realizar fusiones entre los cambios de manera inteligente de modo que no se afecten entre si y todo esto mientras realiza un seguimiento de las acciones.
+
+fuente: https://docs.github.com/es/get-started/start-your-journey/about-github-and-git
+
