@@ -15,7 +15,7 @@ struct Dato{
 };
 /*Esta funcion recibe el string con el nombre del archivo y una direccion de memoria apuntando a un puntero fuera de la funcion, el cual determina el
     tamaño del arreglo en el que se guardaran los datos del archivo que se abre*/
-char* Leer_archivo(string narch, size_t size){
+char* Leer_archivo(string narch, size_t &size){
 
     ifstream archivo(narch, ios::binary | ios::in);
     if (archivo.is_open()){
@@ -45,7 +45,7 @@ void Eliminar_Duplicados ( Dato *& datos , int & cantidad_datos ) {
         bool duplicado=false;
         for (int g=0; g < n_tamaño; g++){
             // compara con id y curso para eliminar duplicados
-            if (datos[i].Id == datos[g].Id || datos[i].Curso == datos[g].Curso){
+            if (datos[i].Id == datos[g].Id && datos[i].Curso == datos[g].Curso){
                 duplicado=true;
                 break;
             };
@@ -58,25 +58,40 @@ void Eliminar_Duplicados ( Dato *& datos , int & cantidad_datos ) {
     cantidad_datos = n_tamaño;
 };
 
-int main(){
+int Calcular_Promedio_Estudiante(Dato* datos, unsigned int id_alumno,int cantidad_de_datos, char* asignatura_a_buscar){
 
-    string nombre_archivo;
-    size_t tamaño = 0;
-    cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
-    cin >> nombre_archivo;
-    char* archivo = Leer_archivo(nombre_archivo, tamaño);
+    for (int i = 0 ; i<cantidad_de_datos; i++){
 
-    if (archivo && tamaño > 0) {
-        int cantidad_datos = tamaño / sizeof(Dato);
-        Dato* datos = reinterpret_cast<Dato*>(archivo);
+        if ((datos[i].Id == id_alumno)&& (strcmp(asignatura_a_buscar, datos[i].Curso)==0)){
+            int suma = 0;
+            for (int j = 0; j<3; j++){
 
-        Eliminar_Duplicados(datos, cantidad_datos);
-        
+                suma += datos[i].Notas[j];
 
-        delete[] archivo;
+            }
+        return suma/3;
+        }
     }
+    return -1;
+};
 
-}
+int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos, char* asignatura_a_buscar){
+    int contador = 0;
+    int promedios[3];
+    for (int i = 0; i<cantidad_de_datos; i++){
+        if(strcmp(asignatura_a_buscar, datos[i].Curso)==0){
+            int suma = 0;
+            for (int j = 0; j<3; j++){
+                promedios[j] += datos[i].Notas[j];
+            }
+            contador += 1;
+        }
+    }
+    for (int j = 0; j<3; j++){
+        promedios[j] = promedios[j]/3;
+    }
+    return promedios;
+};
 
 void Menú(){
 
@@ -124,4 +139,24 @@ void Mostrar_Datos_Alumno(Dato* datos, int tamanio){
                     << std::setw(5) << datos[i].VTR 
                     << std::endl;
     }
+}
+
+int main(){
+
+    string nombre_archivo;
+    size_t tamaño = 0;
+    cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
+    cin >> nombre_archivo;
+    char* archivo = Leer_archivo(nombre_archivo, tamaño);
+
+    if (archivo && tamaño > 0) {
+        int cantidad_datos = tamaño / sizeof(Dato);
+        Dato* datos = reinterpret_cast<Dato*>(archivo);
+
+        Eliminar_Duplicados(datos, cantidad_datos);
+        
+
+        delete[] archivo;
+    }
+
 }
