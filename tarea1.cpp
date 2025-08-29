@@ -57,49 +57,6 @@ void Eliminar_Duplicados ( Dato *& datos , int & cantidad_datos ) {
     
     cantidad_datos = n_tamaño;
 };
-void Agregar_Alumno( Dato *& datos , int &cantidad_datos){
-    Dato nuevo;
-
-    cout << "Ingrese los datos del estudiante:\n";
-    //Ingreso de datos
-    do {
-        cout << "ID (Número mayor a 1500): ";
-        cin >> nuevo.Id;
-        cin.ignore();
-    } while (nuevo.Id <= 1500);
-
-    cout << "Primer nombre y primer apellido: ";
-    cin.getline(nuevo.Nombre, 50);
-
-    cout << "Fecha de nacimiento ( formato YYYY / MM / DD ): ";
-    cin.getline(nuevo.Fecha_Nacimiento, 11);
-
-    cout << "Notas de las 3 evaluaciones ( separadas por espacio ): ";
-    for (int i = 0; i < 3; i++) {
-        cin >> nuevo.Notas[i];
-    }
-    cin.ignore();
-
-    cout << "Sigla del curso: ";
-    cin.getline(nuevo.Curso, 7);
-    do {
-        cout << "VTR: ";
-        cin >> nuevo.VTR;
-        cin.ignore();
-    } while (nuevo.VTR < 1 || nuevo.VTR > 3);
-
-    // arreglar arreglo (xd) y agregar alumno
-    Dato* nuevo_arreglo = new Dato[cantidad_datos + 1];
-    for (int i = 0; i < cantidad_datos; i++) {
-        nuevo_arreglo[i] = datos[i];
-    }
-    nuevo_arreglo[cantidad_datos] = nuevo;
-    delete[] datos;
-    datos = nuevo_arreglo;
-    cantidad_datos++;
-
-    cout << "\nAlumno ingresado con éxito.\n";
-};
 
 int Calcular_Promedio_Estudiante(Dato* datos, unsigned int id_alumno,int cantidad_de_datos, char* asignatura_a_buscar){
 
@@ -188,14 +145,9 @@ int main(){
 
     string nombre_archivo;
     size_t tamaño = 0;
-    cout << "Ingrese el nombre del archivo que desea abrir (Debe incluir el tipo de extension)";
+    cout << "Ingrese el nombre del archivo que desea abrir";
     cin >> nombre_archivo;
     char* archivo = Leer_archivo(nombre_archivo, tamaño);
-
-    Dato* datos = nullptr;
-    int cantidad_datos = 0;
-    int id_alumno;
-    char asignatura_a_buscar[7];
 
     if (archivo && tamaño > 0) {
         int cantidad_datos = tamaño / sizeof(Dato);
@@ -206,38 +158,5 @@ int main(){
 
         delete[] archivo;
     }
-  // MENU
-    int opcion;
-    do {
-        Menú();
-        cin >> opcion;
-        cin.ignore();
 
-        switch (opcion) {
-            // aca podi agregar los casos para cada funcion
-            case 1:
-                Agregar_Alumno(datos, cantidad_datos);
-                break;
-            case 2:
-                Calcular_Promedio_Estudiante(datos,id_alumno, cantidad_datos, asignatura_a_buscar);
-                break;
-            case 3:
-                Calcular_Promedio_Asignatura(datos, cantidad_datos, asignatura_a_buscar);
-                break;
-
-            case 0:
-                cout << "Saliendo del programa...\n";
-                break;
-            default:
-                cout << "Opción inválida. Intente nuevamente.\n";
-        }
-    } while (opcion != 0);
-
-    if (datos) {
-        delete[] datos;
-    }
-    if (archivo) {
-        delete[] archivo;
-    }
-    return 0;
 }
