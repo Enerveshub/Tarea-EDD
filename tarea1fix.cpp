@@ -163,9 +163,10 @@ void Listar_Cursos_Estudiante(Dato* datos, int cantidad_de_datos){
     }
 };
 
-int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos, char* asignatura_a_buscar){
+int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos){
     char asignatura_a_buscar[7];
-    cout<<"Ingrese la asignatura a calcular el promedio por evaluacion";
+    cout<<"Ingrese la asignatura a calcular el promedio por evaluacion: ";
+    cin>>asignatura_a_buscar;
     int contador = 0;
     int promedios[3];
     bool no_existe = true;
@@ -180,15 +181,22 @@ int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos, char* asig
         }
     }
     for (int j = 0; j<3; j++){
-        promedios[j] = promedios[j]/3;
+        promedios[j] = round(promedios[j]/3);
     }
     if (no_existe){
-        cout<<"Error, La asignatura"<< asignatura_a_buscar<<"No existe";
+        cout<<"Error, La asignatura "<< asignatura_a_buscar<<" No existe";
         return nullptr;
     }
-    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0], promedios[1],promedios[2];
+    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0]<< promedios[1]<< promedios[2];
     return promedios;
 };
+
+int* Listar_reprobados_VTR(Dato* datos){
+    char asignatura_a_buscar[7];
+    unsigned short VTR;
+    cout<<"a";
+
+}
 
 void Menú(){
 
@@ -277,7 +285,7 @@ int main(){
                 Calcular_Promedio_Estudiante(datos, cantidad_datos);
                 break;
             case 3:
-                Calcular_Promedio_Asignatura(datos, cantidad_datos, asignatura_a_buscar);
+                Calcular_Promedio_Asignatura(datos, cantidad_datos);
                 break;
             case 4:
                 Listar_Cursos_Estudiante(datos, cantidad_datos);
