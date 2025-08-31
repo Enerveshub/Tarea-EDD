@@ -191,11 +191,50 @@ int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos){
     return promedios;
 };
 
-int* Listar_reprobados_VTR(Dato* datos){
+int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
     char asignatura_a_buscar[7];
     unsigned short VTR;
-    cout<<"a";
-
+    cout<<"Ingrese el VTR: "<<endl;
+    cin>> VTR;
+    cout<<"Ingrese el curso: "<<endl;
+    cin>> asignatura_a_buscar;
+    int contador = 0;
+    for (int i=0 ; i<cantidad_datos;i++){
+        if(strcmp(asignatura_a_buscar, datos[i].Curso)==0){
+            if(datos[i].VTR == VTR){
+                int suma = 0;
+                for (int j=0; j<3; j++){
+                    suma += datos[i].Notas[j];
+                }
+                if((round(suma/3)) < 55){
+                    contador++;
+                }
+            }
+        }
+    }
+    int* vtr = new int[contador];
+    contador = 0;
+    for (int i=0 ; i<cantidad_datos;i++){
+        if(strcmp(asignatura_a_buscar, datos[i].Curso)==0){
+            if(datos[i].VTR == VTR){
+                int suma = 0;
+                for (int j=0; j<3; j++){
+                    suma += datos[i].Notas[j];
+                }
+                if((round(suma/3)) < 55){
+                    vtr[contador] = datos[i].Id;
+                    contador++;
+                }
+            }
+        }
+    }
+    cout<<"Cantidad de reprobados: "<< contador<<endl;
+    cout<< "Ids: ";
+    for(int k = 0; k<contador;k++){
+        cout<< vtr[k];
+    }
+    cout<<endl;
+    return vtr;
 }
 
 void Menú(){
