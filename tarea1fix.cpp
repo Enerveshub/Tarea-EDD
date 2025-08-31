@@ -212,7 +212,7 @@ int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
             }
         }
     }
-    int* vtr = new int[contador];
+    int* ids_reprobados = new int[contador];
     contador = 0;
     for (int i=0 ; i<cantidad_datos;i++){
         if(strcmp(asignatura_a_buscar, datos[i].Curso)==0){
@@ -222,7 +222,7 @@ int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
                     suma += datos[i].Notas[j];
                 }
                 if((round(suma/3)) < 55){
-                    vtr[contador] = datos[i].Id;
+                    ids_reprobados[contador] = datos[i].Id;
                     contador++;
                 }
             }
@@ -231,10 +231,10 @@ int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
     cout<<"Cantidad de reprobados: "<< contador<<endl;
     cout<< "Ids: ";
     for(int k = 0; k<contador;k++){
-        cout<< vtr[k];
+        cout<< ids_reprobados[k]<<" ";
     }
     cout<<endl;
-    return vtr;
+    return ids_reprobados;
 }
 
 void Menú(){
@@ -329,7 +329,9 @@ int main(){
             case 4:
                 Listar_Cursos_Estudiante(datos, cantidad_datos);
                 break;
-
+            case 5:
+                Listar_reprobados_VTR(datos, cantidad_datos);
+                break;
             case 0:
                 cout << "Saliendo del programa...\n";
                 break;
