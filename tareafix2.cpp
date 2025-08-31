@@ -32,7 +32,7 @@ char* Leer_archivo(string narch, size_t &size){
     }
      /*En caso de fallar, la funcion regresa un puntero nulo y te avisa que no se pudo abrir el archivo*/
     else {
-        cout<< "No se pudo abrir el archivo";
+        cout<< "No se pudo abrir el archivo"<<endl;
         size = 0;
         return nullptr;
     }
@@ -140,7 +140,7 @@ int Calcular_Promedio_Estudiante(Dato* datos, int cantidad_de_datos){
         cout<<"No existe el curso "<< asignatura;
         return -1;
     }
-    cout<<"Error";
+    cout<<"Error"<<endl;
     return -1;
 };
 
@@ -185,11 +185,11 @@ int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos){
         promedios[j] = round(promedios[j]/contador);
     }
     if (no_existe){
-        cout<<"Error, La asignatura "<< asignatura_a_buscar<<" No existe";
+        cout<<"Error, La asignatura "<< asignatura_a_buscar<<" No existe"<<endl;
         delete[] promedios;
         return nullptr;
     }
-    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0]<< promedios[1]<< promedios[2];
+    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0]<< promedios[1]<< promedios[2]<<endl;
     return promedios;
 };
 
