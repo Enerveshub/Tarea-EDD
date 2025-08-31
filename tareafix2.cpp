@@ -291,7 +291,7 @@ int main(){
 
     string nombre_archivo;
     size_t tamaño = 0;
-    cout << "Ingrese el nombre del archivo que desea abrir";
+    cout << "Ingrese el nombre del archivo que desea abrir: ";
     cin >> nombre_archivo;
     char* archivo = Leer_archivo(nombre_archivo, tamaño);
     
