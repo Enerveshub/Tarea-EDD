@@ -25,3 +25,12 @@ Github permite estructurar de mejor manera los trabajos colaborativos que se rea
 
 fuente: https://docs.github.com/es/get-started/start-your-journey/about-github-and-git
 
+
+# 4
+La utilidad de documentar las funciones en el codigo es que nos permite tener una mejor lectura en lo que se ha trabajado, porque nos ayuda a entender variables y el uso de estas, no documentarlo impacta de manera que luego al intentar cambiar el codigo seria mas dificil debido a el trabajo que se tiene que hacer para entender lo que esta escrito
+
+Fuente: https://github.blog/ai-and-ml/github-copilot/documenting-and-explaining-legacy-code-with-github-copilot-tips-and-examples/#why-legacy-code-can-be-so-challenging-to-work-with
+
+
+# 5 
+Es importante el uso de las herramientas previamente mencionadas porque permiten un mejor ambiente de trabajo al desarrollar codigo de forma limpia y entendible, esta limpieza ayuda tanto como a la gente que empezo a desarrollar el codigo desde 0 como a la gente que recien esta introduciendose al proyecto

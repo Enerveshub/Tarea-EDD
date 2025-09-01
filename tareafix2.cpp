@@ -32,7 +32,7 @@ char* Leer_archivo(string narch, size_t &size){
     }
      /*En caso de fallar, la funcion regresa un puntero nulo y te avisa que no se pudo abrir el archivo*/
     else {
-        cout<< "No se pudo abrir el archivo";
+        cout<< "No se pudo abrir el archivo"<<endl;
         size = 0;
         return nullptr;
     }
@@ -140,7 +140,7 @@ int Calcular_Promedio_Estudiante(Dato* datos, int cantidad_de_datos){
         cout<<"No existe el curso "<< asignatura;
         return -1;
     }
-    cout<<"Error";
+    cout<<"Error"<<endl;
     return -1;
 };
 
@@ -185,11 +185,11 @@ int* Calcular_Promedio_Asignatura(Dato* datos, int cantidad_de_datos){
         promedios[j] = round(promedios[j]/contador);
     }
     if (no_existe){
-        cout<<"Error, La asignatura "<< asignatura_a_buscar<<" No existe";
+        cout<<"Error, La asignatura "<< asignatura_a_buscar<<" No existe"<<endl;
         delete[] promedios;
         return nullptr;
     }
-    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0]<< promedios[1]<< promedios[2];
+    cout<<"El promedio por evaluacion de la asignatura "<< asignatura_a_buscar<<" es:"<<promedios[0]<< promedios[1]<< promedios[2]<<endl;
     return promedios;
 };
 
@@ -237,6 +237,73 @@ int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
     }
     cout<<endl;
     return ids_reprobados;
+}
+
+void Generar_informe(Dato* datos, int cantidad_de_datos){
+
+    char cursos_unicos[100][7];
+        int cursos_count = 0;
+        for (int i = 0; i < cantidad_de_datos; i++) {
+            bool existe = false;
+            for (int j = 0; j < cursos_count; j++) {
+                if (strcmp(datos[i].Curso, cursos_unicos[j]) == 0) {
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+            strncpy(cursos_unicos[cursos_count], datos[i].Curso, 7);
+            cursos_unicos[cursos_count][6] = '\0';
+            cursos_count++;
+            }
+        }
+    for (int asig = 0; asig<cursos_count; asig++){
+        char curso[7];
+        string ids_rep = "";
+        strncpy(curso, cursos_unicos[asig], 7);
+        curso[6] = '\0';
+        char narch[20];
+        snprintf(narch, sizeof(narch), "%s.txt", curso);
+        ofstream archivo(narch);
+        int cantidad_estudiantes = 0, aprobados = 0, reprobados = 0 , nota_max[3]{-1,-1,-1}, nota_min[3]{101,101,101}, eliminados[100], cant_eliminados = 0;
+        for (int i = 0; i< cantidad_de_datos; i++){
+            if(strcmp(curso, datos[i].Curso)==0){
+                int suma = 0;
+                for (int j = 0; j<3; j++){
+                    suma += datos[i].Notas[j];
+                }
+                if ((suma/3) < 55){
+                    reprobados++;
+                }
+                else{
+                    aprobados++;
+                }
+                if ((datos[i].VTR == 3) && ((suma/3) < 55)){
+                    cant_eliminados++;
+                    ids_rep += to_string(datos[i].Id) + " ";
+                }
+                archivo<< datos[i].Id << " "<< datos[i].Nombre<< " "<< string(curso)<< " "<< datos[i].Fecha_Nacimiento<<" "<< datos[i].VTR<< datos[i].Notas[0]<< " "<<datos[i].Notas[1]<< " "<< datos[i].Notas[2]<< " "<< (suma/3)<<endl;
+                cantidad_estudiantes++;
+                for (int j = 0; j<3; j++){
+                    if (datos[i].Notas[j] > nota_max[j]){
+                        nota_max[j] = datos[i].Notas[j];
+                    }
+                    if (datos[i].Notas[j] < nota_min[j]){
+                        nota_min[j] = datos[i].Notas[j];
+                    } 
+                }
+            }
+        }
+        archivo << cantidad_estudiantes<<endl;
+        archivo << "Aprobados: "<<aprobados<<endl;
+        archivo << "Reprobados: "<<reprobados<<endl;
+        archivo << "Porcentaje de aprobacion: "<<(aprobados/cantidad_estudiantes)*100<<"%"<<endl;
+        archivo << "Maximos: "<< nota_max[0]<< " "<< nota_max[1]<< " "<< nota_max[2]<<endl;
+        archivo << "Minimos: "<< nota_min[0]<< " "<< nota_min[1]<< " "<< nota_min[2]<<endl;
+        archivo << "VTR3 reprobados: "<< cant_eliminados<<endl;
+        archivo << "Ids: "<< ids_rep<<endl;
+        archivo.close();
+    }
 }
 
 void Menú(){
@@ -291,7 +358,7 @@ int main(){
 
     string nombre_archivo;
     size_t tamaño = 0;
-    cout << "Ingrese el nombre del archivo que desea abrir";
+    cout << "Ingrese el nombre del archivo que desea abrir: ";
     cin >> nombre_archivo;
     char* archivo = Leer_archivo(nombre_archivo, tamaño);
     
@@ -333,6 +400,9 @@ int main(){
                 break;
             case 5:
                 Listar_reprobados_VTR(datos, cantidad_datos);
+                break;
+            case 6:
+                Generar_informe(datos, cantidad_datos);
                 break;
             case 0:
                 cout << "Saliendo del programa...\n";
