@@ -239,6 +239,69 @@ int* Listar_reprobados_VTR(Dato* datos, int cantidad_datos){
     return ids_reprobados;
 }
 
+void Generar_informe(Dato* datos, int cantidad_de_datos){
+
+    char cursos_unicos[100][7];
+        int cursos_count = 0;
+        for (int i = 0; i < cantidad_de_datos; i++) {
+            bool existe = false;
+            for (int j = 0; j < cursos_count; j++) {
+                if (strcmp(datos[i].Curso, cursos_unicos[j]) == 0) {
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                strcpy(cursos_unicos[cursos_count], datos[i].Curso);
+                cursos_count++;
+            }
+        }
+    for (int asig = 0; asig<cursos_count; asig++){
+        char* curso = cursos_unicos[asig];
+        string ids_rep = "";
+        string narch = string(curso)+".txt";
+        ofstream archivo(narch);
+        int cantidad_estudiantes = 0, aprobados = 0, reprobados = 0 , nota_max[3]{-1,-1,-1}, nota_min[3]{101,101,101}, eliminados[100], cant_eliminados = 0;
+        for (int i = 0; i< cantidad_de_datos; i++){
+            if(strcmp(curso, datos[i].Curso)==0){
+                int suma = 0;
+                for (int j = 0; j<3; j++){
+                    suma += datos[i].Notas[j];
+                }
+                if ((suma/3) < 55){
+                    reprobados++;
+                }
+                else{
+                    aprobados++;
+                }
+                if ((datos[i].VTR == 3) && ((suma/3) < 55)){
+                    cant_eliminados++;
+                    ids_rep += to_string(datos[i].Id) + " ";
+                }
+                archivo<< datos[i].Id << " "<< datos[i].Nombre<< " "<< curso<< " "<< datos[i].Fecha_Nacimiento<<" "<< datos[i].VTR<< datos[i].Notas[0]<< " "<<datos[i].Notas[1]<< " "<< datos[i].Notas[2]<< " "<< (suma/3)<<endl;
+                cantidad_estudiantes++;
+                for (int j = 0; j<3; j++){
+                    if (datos[i].Notas[j] > nota_max[j]){
+                        nota_max[j] = datos[i].Notas[j];
+                    }
+                    if (datos[i].Notas[j] < nota_min[j]){
+                        nota_min[j] = datos[i].Notas[j];
+                    } 
+                }
+            }
+        }
+        archivo << cantidad_estudiantes<<endl;
+        archivo << "Aprobados: "<<aprobados<<endl;
+        archivo << "Reprobados: "<<reprobados<<endl;
+        archivo << "Porcentaje de aprobacion: "<<(aprobados/cantidad_estudiantes)*100<<"%"<<endl;
+        archivo << "Maximos: "<< nota_max[0]<< " "<< nota_max[1]<< " "<< nota_max[2]<<endl;
+        archivo << "Minimos: "<< nota_min[0]<< " "<< nota_min[1]<< " "<< nota_min[2]<<endl;
+        archivo << "VTR3 reprobados: "<< cant_eliminados<<endl;
+        archivo << "Ids: "<< ids_rep<<endl;
+        archivo.close();
+    }
+}
+
 void Menú(){
 
     std::cout << 
