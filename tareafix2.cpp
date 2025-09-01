@@ -252,14 +252,18 @@ void Generar_informe(Dato* datos, int cantidad_de_datos){
                 }
             }
             if (!existe) {
-                strcpy(cursos_unicos[cursos_count], datos[i].Curso);
-                cursos_count++;
+            strncpy(cursos_unicos[cursos_count], datos[i].Curso, 7);
+            cursos_unicos[cursos_count][6] = '\0';
+            cursos_count++;
             }
         }
     for (int asig = 0; asig<cursos_count; asig++){
-        char* curso = cursos_unicos[asig];
+        char curso[7];
         string ids_rep = "";
-        string narch = string(curso)+".txt";
+        strncpy(curso, cursos_unicos[asig], 7);
+        curso[6] = '\0';
+        char narch[20];
+        snprintf(narch, sizeof(narch), "%s.txt", curso);
         ofstream archivo(narch);
         int cantidad_estudiantes = 0, aprobados = 0, reprobados = 0 , nota_max[3]{-1,-1,-1}, nota_min[3]{101,101,101}, eliminados[100], cant_eliminados = 0;
         for (int i = 0; i< cantidad_de_datos; i++){
@@ -278,7 +282,7 @@ void Generar_informe(Dato* datos, int cantidad_de_datos){
                     cant_eliminados++;
                     ids_rep += to_string(datos[i].Id) + " ";
                 }
-                archivo<< datos[i].Id << " "<< datos[i].Nombre<< " "<< curso<< " "<< datos[i].Fecha_Nacimiento<<" "<< datos[i].VTR<< datos[i].Notas[0]<< " "<<datos[i].Notas[1]<< " "<< datos[i].Notas[2]<< " "<< (suma/3)<<endl;
+                archivo<< datos[i].Id << " "<< datos[i].Nombre<< " "<< string(curso)<< " "<< datos[i].Fecha_Nacimiento<<" "<< datos[i].VTR<< datos[i].Notas[0]<< " "<<datos[i].Notas[1]<< " "<< datos[i].Notas[2]<< " "<< (suma/3)<<endl;
                 cantidad_estudiantes++;
                 for (int j = 0; j<3; j++){
                     if (datos[i].Notas[j] > nota_max[j]){
@@ -396,6 +400,9 @@ int main(){
                 break;
             case 5:
                 Listar_reprobados_VTR(datos, cantidad_datos);
+                break;
+            case 6:
+                Generar_informe(datos, cantidad_datos);
                 break;
             case 0:
                 cout << "Saliendo del programa...\n";
